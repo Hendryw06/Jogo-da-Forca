@@ -5,13 +5,13 @@ const tentativasMaximas = 6;
 let tentativasRestantes;
 
 function iniciarjogo() {
-
     const indiceAleatorio = Math.floor(Math.random() * palavras.length);
     palavraAtual = palavras[indiceAleatorio];
     dicaAtual = dicas[indiceAleatorio];
     letrasAdivinhadas = [];
     tentativasRestantes = tentativasMaximas;
     atualizarDisplayDojogo();
+    reiniciarBoneco(); // Reinicia o boneco ao iniciar o jogo
 }
 
 function atualizarDisplayDojogo() {
@@ -30,7 +30,6 @@ function atualizarDisplayDojogo() {
     document.getElementById("status").textContent = `Tentativas restantes: ${tentativasRestantes}`;
     document.getElementById("attempts").textContent = `Letras já tentadas: ${letrasAdivinhadas.join(", ")}`;
 }
-
 
 function adivinharLetra() {
     const entradaAdvinhacao = document.getElementById("guess");
@@ -58,7 +57,7 @@ function adivinharLetra() {
             desenharBoneco();
 
             let palavraCompleta = true;
-            for (let i = 0; i <palavraAtual.length; i++) {
+            for (let i = 0; i < palavraAtual.length; i++) {
                 if (
                     letrasAdivinhadas.indexOf(palavraAtual[i]) === -1 &&
                     palavraAtual[i] !== " "
@@ -68,18 +67,21 @@ function adivinharLetra() {
                 }
             }
 
-            if ( palavraCompleta) {
+            if (palavraCompleta) {
                 document.getElementById("status").textContent = "Você venceu!";
-            }else if (tentativasRestantes <= 0) {
-                document.getElementById(
-                    "status"
-                ).textContent = `Você perdeu! A palavra era: ${palavraAtual}`;
+            } else if (tentativasRestantes <= 0) {
+                document.getElementById("status").textContent = `Você perdeu! A palavra era: ${palavraAtual}`;
             }
-                
-            }
+        }
     }
 
     entradaAdvinhacao.value = "";
+}
+
+function reiniciarBoneco() {
+    const forcaElement = document.getElementById("forca");
+    forcaElement.innerHTML = ''; // Limpa o boneco
+    // Aqui você pode adicionar o código para desenhar o boneco inicial, se necessário
 }
 
 document.addEventListener("DOMContentLoaded", iniciarjogo);
